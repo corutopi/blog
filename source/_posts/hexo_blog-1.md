@@ -8,7 +8,7 @@ tags:
 hexoプロジェクト作成～localでの起動まで.
 
 ## 初めに
-このブログを hexo ＆ github.io で作ったのでその記録。
+このブログを hexo ＆ github pages で作ったのでその記録。
 今回はhexoプロジェクトフォルダを立ち上げるところまで。
 
 ---
