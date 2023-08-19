@@ -85,12 +85,15 @@ cd blog
 npx hexo generate
 npx hexo server
 ```
-`generate`でマークダウンファイルから静的なhtmlやらcssやらを作成する。
-`server`で作成した静的コンテンツにアクセスする動作確認用サーバーを起動してくれる。
+- `generate`でマークダウンファイルから静的なhtmlやらcssやらを作成する。
+コマンドの実行が完了すると`public`というフォルダが作成されており、その中に静的コンテンツが配置されている。
+- `server`で作成した静的コンテンツにアクセスする動作確認用サーバーを起動してくれる。
+
 以下のようなログが出るので、そこのURLからアクセスしてみると...ブログが起動してる！
 ```
 INFO  Hexo is running at http://localhost:4000/blog/ . Press Ctrl+C to stop.
 ```
+
 デフォルトポートは`4000`だが、オプションで変更可能。
 ```bash
 npx hexo server -p 4000
