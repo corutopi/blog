@@ -4,15 +4,24 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>デフォルトの AWS Cloud9 環境では使用できないアクションがある件 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://corutopi.github.io/blog/index.html">
+  <meta name="description" content="AWS Cloud9 ではIAM権限で許可されていても使えないアクションがあるよって話。  結論Cloud9 のデフォルトである AWS managed temporary credentials を使用している場合、ここに記載されいているcloud9, iam, stsの一部のアクションは使用できない。  詳細IAMリソースの整理がしたくてcloud9環境でaws cliをたたいてたら今回の事象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="デフォルトの AWS Cloud9 環境では使用できないアクションがある件">
+<meta property="og:url" content="http://corutopi.github.io/blog/2023/10/14/aws-cloud9-unuse_action/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="AWS Cloud9 ではIAM権限で許可されていても使えないアクションがあるよって話。  結論Cloud9 のデフォルトである AWS managed temporary credentials を使用している場合、ここに記載されいているcloud9, iam, stsの一部のアクションは使用できない。  詳細IAMリソースの整理がしたくてcloud9環境でaws cliをたたいてたら今回の事象">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://corutopi.github.io/blog/2023/10/14/aws-cloud9-unuse_action/ChatGPT_answer.png">
+<meta property="article:published_time" content="2023-10-14T00:44:00.000Z">
+<meta property="article:modified_time" content="2023-10-13T16:33:23.058Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="aws">
+<meta property="article:tag" content="aws cloud9">
+<meta property="article:tag" content="小ネタ">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://corutopi.github.io/blog/2023/10/14/aws-cloud9-unuse_action/ChatGPT_answer.png">
   
     <link rel="alternate" href="/blog/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -71,9 +80,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-aws-cloud9-unuse_action" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-aws-cloud9-unuse_action" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/2023/10/14/aws-cloud9-unuse_action/" class="article-date">
   <time class="dt-published" datetime="2023-10-14T00:44:00.000Z" itemprop="datePublished">2023-10-14</time>
@@ -86,8 +93,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/2023/10/14/aws-cloud9-unuse_action/">デフォルトの AWS Cloud9 環境では使用できないアクションがある件</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      デフォルトの AWS Cloud9 環境では使用できないアクションがある件
     </h1>
   
 
@@ -131,89 +138,19 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-hexo_blog-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/2023/08/17/hexo_blog-1/" class="article-date">
-  <time class="dt-published" datetime="2023-08-17T02:12:31.000Z" itemprop="datePublished">2023-08-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/2023/08/17/hexo_blog-1/">hexoでブログ作成 その１ ～セットアップ編～</a>
-    </h1>
+    <a href="/blog/2023/08/17/hexo_blog-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">hexoでブログ作成 その１ ～セットアップ編～</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>hexoプロジェクト作成～localでの起動まで.</p>
-<h2 id="初めに"><a href="#初めに" class="headerlink" title="初めに"></a>初めに</h2><p>このブログを hexo ＆ github pages で作ったのでその記録。<br>今回はhexoプロジェクトフォルダを立ち上げるところまで。</p>
-<hr>
-<h2 id="環境"><a href="#環境" class="headerlink" title="環境"></a>環境</h2><ul>
-<li>OS: dockerコンテナ (amazonlinux:2)</li>
-<li>Node: 16.x</li>
-<li>hexo: 6.3.0 (実施時に指定なしでインストールされたもの)</li>
-</ul>
-<hr>
-<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>以下のコマンドを実行する</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Nodeのインストール</span></span><br><span class="line">curl -fsSL https://rpm.nodesource.com/setup_16.x | bash -</span><br><span class="line">yum install -y nodejs</span><br><span class="line"></span><br><span class="line"><span class="comment"># hexoのインストール</span></span><br><span class="line">npm install -g hexo-cli</span><br><span class="line"></span><br><span class="line"><span class="comment"># プロジェクトの作成</span></span><br><span class="line"><span class="built_in">cd</span> /opt</span><br><span class="line">npx hexo init blog</span><br><span class="line"><span class="comment"># ローカル起動</span></span><br><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line"><span class="comment"># npx hexo clean</span></span><br><span class="line">npx hexo generate</span><br><span class="line">npx hexo server</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="詳細"><a href="#詳細" class="headerlink" title="詳細"></a>詳細</h2><h3 id="インストール"><a href="#インストール" class="headerlink" title="インストール"></a>インストール</h3><p>hexoはNodeで動いているらしいのでNodeもインストールする。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># nodeのインストール</span></span><br><span class="line">curl -fsSL https://rpm.nodesource.com/setup_16.x | bash -</span><br><span class="line">yum install -y nodejs</span><br><span class="line"></span><br><span class="line"><span class="comment"># hexoのインストール</span></span><br><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-<p>本当は18.xを使いたかったけど amazonlinux:2 上ではうまくインストールできなかったので16.xを使うことに…<br>詳しくは<a target="_blank" rel="noopener" href="https://itneko.com/amazon-linux2-nodejs18/">このブログ</a>を参照。</p>
-<h3 id="プロジェクトの作成"><a href="#プロジェクトの作成" class="headerlink" title="プロジェクトの作成"></a>プロジェクトの作成</h3><p>適当なフォルダで<code>init</code>すると初期プロジェクトフォルダを構築してくれる。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx hexo init blog</span><br></pre></td></tr></table></figure>
-<p>以下のような構成でフォルダが作成される。<br>※sourceフォルダだけ少し深く出力してます。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">blog</span><br><span class="line">|-- _config.landscape.yml</span><br><span class="line">|-- _config.yml</span><br><span class="line">|-- node_modules</span><br><span class="line">|-- package-lock.json</span><br><span class="line">|-- package.json</span><br><span class="line">|-- scaffolds</span><br><span class="line">|-- source</span><br><span class="line">|   `-- _posts</span><br><span class="line">|       `-- hello-world.md</span><br><span class="line">`-- themes</span><br></pre></td></tr></table></figure>
-<p>source &gt; _posts 配下に<code>hello-world.md</code>というのがあるが、これがサンプルブログファイル。<br>こいつは削除して、ブログ記事毎にここにmdファイルを追加していくイメージ。</p>
-<p>とりあえずは何もせずに先に進む。</p>
-<h3 id="ローカル起動"><a href="#ローカル起動" class="headerlink" title="ローカル起動"></a>ローカル起動</h3><p>プロジェクトフォルダに移動してローカルサーバーを起動。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line">npx hexo generate</span><br><span class="line">npx hexo server</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>generate</code>でマークダウンファイルから静的なhtmlやらcssやらを作成する。<br>コマンドの実行が完了すると<code>public</code>というフォルダが作成されており、その中に静的コンテンツが配置されている。</li>
-<li><code>server</code>で作成した静的コンテンツにアクセスする動作確認用サーバーを起動してくれる。</li>
-</ul>
-<p>以下のようなログが出るので、そこのURLからアクセスしてみると…ブログが起動してる！</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INFO  Hexo is running at http://localhost:4000/blog/ . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
-
-<p>デフォルトポートは<code>4000</code>だが、オプションで変更可能。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx hexo server -p 4000</span><br></pre></td></tr></table></figure>
-<p>コンテナで実行している場合はホスト側とポートマッピングしておかないとアクセスできない点に注意。</p>
-<hr>
-<h2 id="所感"><a href="#所感" class="headerlink" title="所感"></a>所感</h2><p>ぶっちゃけ、公式チュートリアルの一部を焼きなおしただけみたいな感じになっちゃったな。<br>ひとまずは自分が思い出せるようにしておくのが第一の目的だし、まあいいか。<br>しかしいい加減ブログタイトルくらいは変えないとな…</p>
-<hr>
-<h2 id="参考URL"><a href="#参考URL" class="headerlink" title="参考URL"></a>参考URL</h2><p><a target="_blank" rel="noopener" href="https://hexo.io/docs/">https://hexo.io/docs/</a><br><a target="_blank" rel="noopener" href="https://itneko.com/amazon-linux2-nodejs18/">https://itneko.com/amazon-linux2-nodejs18/</a></p>
-<!-- おわり -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://corutopi.github.io/blog/2023/08/17/hexo_blog-1/" data-id="clnotvkgn0008kfqf9gt13jrn" data-title="hexoでブログ作成 その１ ～セットアップ編～" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/blog/" rel="tag">blog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/hexo/" rel="tag">hexo</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
 
 
 </section>
